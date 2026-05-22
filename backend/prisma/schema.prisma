@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  id           Int            @id @default(autoincrement())
+  nome         String
+  email        String         @unique
+  telefone     String
+  senha        String
+  agendamentos Agendamento[]
+}
+
+model Servico {
+  id       Int              @id @default(autoincrement())
+  nome     String
+  duracao  Int
+  preco    Float
+  itens    ItemAgendamento[]
+}
+
+model Agendamento {
+  id         Int              @id @default(autoincrement())
+  data       DateTime
+  status     String           @default("pendente")
+  createdAt  DateTime         @default(now())
+  clienteId  Int
+  cliente    Cliente          @relation(fields: [clienteId], references: [id])
+  itens      ItemAgendamento[]
+}
+
+model ItemAgendamento {
+  id            Int          @id @default(autoincrement())
+  agendamentoId Int
+  servicoId     Int
+  statusServico String       @default("pendente")
+  precoNaHora   Float
+  agendamento   Agendamento  @relation(fields: [agendamentoId], references: [id])
+  servico       Servico      @relation(fields: [servicoId], references: [id])
+}
