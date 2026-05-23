@@ -25,8 +25,8 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: '50px auto' }}>
-      <h2>Login - Cabeleleila Leila</h2>
+    <div style={{ maxWidth: 400, margin: '50px auto' }} className="card">
+      <h2 style={{ textAlign: 'center' }}>Login - Cabeleleila Leila</h2>
       {erro && <p style={{ color: 'red' }}>{erro}</p>}
       <form onSubmit={handleSubmit}>
         <div>

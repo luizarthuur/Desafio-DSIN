@@ -12,8 +12,8 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav style={{ display: 'flex', gap: 20, background: '#f0f0f0', padding: 10 }}>
-      {usuario ? (
+<nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'white', padding: '15px 30px', borderBottom: `3px solid var(--color-gold)` }}>
+<div className="logo">Cabeleleila <span style={{ color: 'var(--color-gold)' }}>Leila</span></div>      {usuario ? (
         <>
           <span>Olá, {usuario.nome} ({usuario.role})</span>
           {usuario.role === 'admin' ? (
