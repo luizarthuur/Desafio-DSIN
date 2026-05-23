@@ -1,13 +1,13 @@
-// frontend/src/components/Agendamento.tsx
 import React, { useState, useEffect } from 'react';
 import { listarServicos, criarAgendamento, alterarAgendamento } from '../../services/api';
 import type { Servico, Sugestao } from '../../types/index';
+import './Agendamento.css';
 
 const Agendamento: React.FC = () => {
   const [servicos, setServicos] = useState<Servico[]>([]);
   const [data, setData] = useState('');
   const [hora, setHora] = useState('');
-  const [servicosSelecionados, setServicosSelecionados] = useState<number[]>([]);
+  const [servicoSelecionado, setServicoSelecionado] = useState<number | null>(null); // mudança para único
   const [sugestao, setSugestao] = useState<Sugestao | null>(null);
   const [agendamentoId, setAgendamentoId] = useState<number | null>(null);
   const [mensagem, setMensagem] = useState('');
@@ -28,14 +28,14 @@ const Agendamento: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (servicosSelecionados.length === 0) {
-      setMensagem('Selecione pelo menos um serviço.');
+    if (servicoSelecionado === null) {
+      setMensagem('⚠️ Selecione um serviço.');
       setTimeout(() => setMensagem(''), 3000);
       return;
     }
     setIsLoading(true);
     try {
-      const res = await criarAgendamento(usuario.id, data, hora, servicosSelecionados);
+      const res = await criarAgendamento(usuario.id, data, hora, [servicoSelecionado]); // array com um item
       const { agendamento, sugestao: sug } = res.data;
       setAgendamentoId(agendamento.id);
       if (sug) {
@@ -46,7 +46,8 @@ const Agendamento: React.FC = () => {
         limparFormulario();
       }
     } catch (error: any) {
-      setMensagem(error.response?.data?.erro || 'Erro ao criar agendamento');
+      const msg = error.response?.data?.erro || 'Erro ao criar agendamento';
+      setMensagem(`❌ ${msg}`);
       setTimeout(() => setMensagem(''), 4000);
     } finally {
       setIsLoading(false);
@@ -64,7 +65,7 @@ const Agendamento: React.FC = () => {
       setTimeout(() => setMensagem(''), 3000);
       limparFormulario();
     } catch (error: any) {
-      setMensagem('Erro ao aceitar sugestão');
+      setMensagem('❌ Erro ao aceitar sugestão');
     } finally {
       setIsLoading(false);
     }
@@ -72,7 +73,6 @@ const Agendamento: React.FC = () => {
 
   const recusarSugestao = () => {
     setSugestao(null);
-    // Opcional: perguntar se deseja manter o agendamento original
     setMensagem('Agendamento mantido na data original.');
     setTimeout(() => setMensagem(''), 3000);
     limparFormulario();
@@ -81,15 +81,14 @@ const Agendamento: React.FC = () => {
   const limparFormulario = () => {
     setData('');
     setHora('');
-    setServicosSelecionados([]);
+    setServicoSelecionado(null);
     setAgendamentoId(null);
   };
 
-  // Impedir datas passadas (opcional)
   const hoje = new Date().toISOString().split('T')[0];
 
   return (
-    <div style={{ maxWidth: 800, margin: '0 auto', padding: 20 }}>
+    <div style={{ maxWidth: 900, margin: '0 auto', padding: 20 }}>
       <div className="card" style={{ marginBottom: 20 }}>
         <h2 style={{ color: 'var(--color-plum)', marginBottom: 20 }}>
           ✨ Novo Agendamento
@@ -119,39 +118,51 @@ const Agendamento: React.FC = () => {
             />
           </div>
 
-          {/* Serviços */}
+          {/* Serviços - Agora com radio buttons */}
           <div style={{ marginBottom: 20 }}>
             <label style={{ fontWeight: 500, display: 'block', marginBottom: 10 }}>
-              Escolha os serviços
+              Escolha o serviço que você deseja agendar: 
             </label>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-              gap: 12
-            }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {servicos.map(s => (
-                <label key={s.id} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  cursor: 'pointer',
-                  background: servicosSelecionados.includes(s.id) ? 'var(--color-rose-light)' : 'white',
-                  padding: '8px 12px',
-                  borderRadius: 30,
-                  transition: '0.2s'
-                }}>
+                <label
+                  key={s.id}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 20,
+                    padding: '16px 20px',
+                    background: servicoSelecionado === s.id ? 'var(--color-rose-light)' : 'white',
+                    borderRadius: 20,
+                    border: '1px solid var(--color-rose-light)',
+                    cursor: 'pointer',
+                    transition: '0.2s',
+                  }}
+                >
                   <input
-                    type="checkbox"
+                    type="radio"
+                    name="servico"
                     value={s.id}
-                    checked={servicosSelecionados.includes(s.id)}
-                    onChange={e => {
-                      if (e.target.checked)
-                        setServicosSelecionados([...servicosSelecionados, s.id]);
-                      else
-                        setServicosSelecionados(servicosSelecionados.filter(id => id !== s.id));
-                    }}
+                    checked={servicoSelecionado === s.id}
+                    onChange={() => setServicoSelecionado(s.id)}
+                    style={{ width: 22, height: 22, margin: 0 }}
                   />
-                  <span>{s.nome} - R$ {s.preco.toFixed(2)}</span>
+                  <img
+                    src={s.imagemUrl || `https://via.placeholder.com/80?text=${s.nome.charAt(0)}`}
+                    alt={s.nome}
+                    style={{ width: 80, height: 80, borderRadius: 16, objectFit: 'cover', background: '#f0f0f0' }}
+                  />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>{s.nome}</div>
+                    {s.descricao && (
+                      <div style={{ fontSize: '0.8rem', color: '#666', marginTop: 4 }}>
+                        <strong>Descrição:</strong> {s.descricao}
+                      </div>
+                    )}
+                    <div style={{ fontSize: '1rem', marginTop: 6, color: 'var(--color-rose-burnt)', fontWeight: 500 }}>
+                      R$ {s.preco.toFixed(2)} • {s.duracao} min
+                    </div>
+                  </div>
                 </label>
               ))}
             </div>

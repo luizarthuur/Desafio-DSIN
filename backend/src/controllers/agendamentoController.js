@@ -1,4 +1,6 @@
 const agendamentoService = require('../services/agendamentoService');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 exports.criar = async (req, res) => {
   try {

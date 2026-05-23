@@ -1,0 +1,17 @@
+.agendamento-label{
+    padding: 8px 12px;
+    border-radius: 30px;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8;
+    cursor: pointer;
+    flex-direction: row;
+    width: 100%;
+}
+
+.agendamento-servico{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

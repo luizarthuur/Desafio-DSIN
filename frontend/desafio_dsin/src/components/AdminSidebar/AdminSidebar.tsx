@@ -11,9 +11,6 @@ const AdminSidebar: React.FC = () => {
 
   return (
     <aside className="admin-sidebar">
-      <div className="sidebar-logo">
-        <img src="/cabeleleila-leila-vertical.png" alt="Logo" className="sidebar-logo-img" />
-      </div>
       <nav className="sidebar-nav">
         <NavLink to="/admin" className={({ isActive }) => "sidebar-link" + (isActive ? " active" : "")}>
           <FaTachometerAlt /> Dashboard

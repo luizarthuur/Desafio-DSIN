@@ -33,6 +33,7 @@ function App() {
         </Route>
 
         <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="agendamentos" element={<AdminAgendamentos />} />
       </Routes>
     </BrowserRouter>
   );
