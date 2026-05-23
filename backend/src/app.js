@@ -24,4 +24,6 @@ app.use('/api/agendamentos', require('./routes/agendamentoRoutes'));
 // Rotas administrativas (além do token, exigem papel de admin)
 app.use('/api/relatorios', autorizarAdmin, require('./routes/relatorioRoutes'));
 
+app.use('/api/admin', require('./routes/adminRoutes'));
+
 module.exports = app;

@@ -18,21 +18,25 @@ model Cliente {
 }
 
 model Servico {
-  id       Int              @id @default(autoincrement())
-  nome     String
-  duracao  Int
-  preco    Float
-  itens    ItemAgendamento[]
+  id         Int      @id @default(autoincrement())
+  nome       String
+  descricao  String?  // novo
+  duracao    Int
+  preco      Float
+  imagemUrl  String?  // novo (opcional)
+  itens      ItemAgendamento[]
 }
 
 model Agendamento {
-  id         Int              @id @default(autoincrement())
-  data       DateTime
-  status     String           @default("pendente")
-  createdAt  DateTime         @default(now())
-  clienteId  Int
-  cliente    Cliente          @relation(fields: [clienteId], references: [id])
-  itens      ItemAgendamento[]
+  id                Int              @id @default(autoincrement())
+  data              DateTime
+  status            String           @default("pendente")
+  formaPagamento    String?          // novo: DINHEIRO, CARTAO, PIX
+  motivoCancelamento String?         // novo: justificativa quando cancelado
+  createdAt         DateTime         @default(now())
+  clienteId         Int
+  cliente           Cliente          @relation(fields: [clienteId], references: [id])
+  itens             ItemAgendamento[]
 }
 
 model ItemAgendamento {
@@ -44,3 +48,4 @@ model ItemAgendamento {
   agendamento   Agendamento  @relation(fields: [agendamentoId], references: [id])
   servico       Servico      @relation(fields: [servicoId], references: [id])
 }
+

@@ -8,8 +8,10 @@ export interface Usuario {
   export interface Servico {
     id: number;
     nome: string;
+    descricao?: string;
     duracao: number;
     preco: number;
+    imagemUrl?: string;
   }
   
   export interface ItemAgendamento {
@@ -24,6 +26,8 @@ export interface Usuario {
     id: number;
     data: string;
     status: 'pendente' | 'confirmado' | 'cancelado';
+    formaPagamento?: string;
+    motivoCancelamento?: string;
     createdAt: string;
     clienteId: number;
     cliente: Usuario;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import type { Usuario } from '../types';
+import type { Usuario } from '../../types';
 
 interface PrivateRouteProps {
   children: React.ReactNode;

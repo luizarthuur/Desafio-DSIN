@@ -5,6 +5,7 @@ const { autorizarAdmin } = require('../middleware/authMiddleware');
 router.post('/', agendamentoController.criar);
 router.put('/:id', agendamentoController.alterar);
 router.get('/historico', agendamentoController.historico);
+router.patch('/:id/cancelar', agendamentoController.cancelar);
 
 // Rotas exclusivas para admin
 router.get('/todos', autorizarAdmin, agendamentoController.listarTodos);

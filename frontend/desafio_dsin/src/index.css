@@ -64,3 +64,14 @@ input, select, textarea {
 .card:hover {
   box-shadow: 0 6px 16px rgba(0,0,0,0.1);
 }
+
+.admin-container {
+  display: flex;
+  min-height: calc(100vh - 80px - 100px); /* navbar + footer */
+}
+
+.admin-main {
+  flex: 1;
+  padding: 24px 32px;
+  background-color: var(--color-nude);
+}

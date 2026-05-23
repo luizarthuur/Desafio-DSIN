@@ -108,3 +108,28 @@ exports.atualizarStatusItem = async (req, res) => {
     res.status(400).json({ erro: error.message });
   }
 };
+
+exports.cancelar = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { motivo } = req.body;
+    const agendamento = await prisma.agendamento.findUnique({ where: { id: parseInt(id) } });
+    if (!agendamento) return res.status(404).json({ erro: 'Agendamento não encontrado' });
+    if (req.usuario.role !== 'admin' && req.usuario.id !== agendamento.clienteId) {
+      return res.status(403).json({ erro: 'Você só pode cancelar seus próprios agendamentos.' });
+    }
+    // Verifica se falta mais de 2 dias (opcional: permitir cancelamento até 2 dias antes)
+    const hoje = new Date();
+    const diffDias = Math.ceil((new Date(agendamento.data) - hoje) / (1000*60*60*24));
+    if (diffDias < 2 && req.usuario.role !== 'admin') {
+      return res.status(400).json({ erro: 'Cancelamento permitido somente com 2 dias ou mais de antecedência. Entre em contato com o salão.' });
+    }
+    const cancelado = await prisma.agendamento.update({
+      where: { id: parseInt(id) },
+      data: { status: 'cancelado', motivoCancelamento: motivo || 'Cancelado pelo cliente' }
+    });
+    res.json(cancelado);
+  } catch (error) {
+    res.status(400).json({ erro: error.message });
+  }
+};

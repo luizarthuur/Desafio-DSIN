@@ -1,7 +1,7 @@
 // frontend/src/components/AdminDashboard.tsx
 import React, { useState, useEffect } from 'react';
-import { listarTodosAgendamentos, confirmarAgendamento, atualizarStatusItem, relatorioSemanal } from '../services/api';
-import type { Agendamento, RelatorioSemanal } from '../types';
+import { listarTodosAgendamentos, confirmarAgendamento, atualizarStatusItem, relatorioSemanal } from '../../services/api';
+import type { Agendamento, RelatorioSemanal } from '../../types/index';
 import { FaChartLine, FaCheckCircle, FaSpinner, FaCalendarWeek } from 'react-icons/fa';
 
 const AdminDashboard: React.FC = () => {

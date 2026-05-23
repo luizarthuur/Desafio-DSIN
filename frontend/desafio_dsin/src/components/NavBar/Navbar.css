@@ -1,39 +1,91 @@
-.navbar{
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: white;
-    padding: 15px 30px;
+    background: white;
+    padding: 12px 32px;
     border-bottom: 3px solid var(--color-gold);
-    height: 110px;
-}
-
-.logo-navbar{
-    max-width: 400px;
-    max-height: 200px;
-}
-
-.navbar-loginbutton{
-    background-color: var(--color-rose-burnt);
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
     font-family: var(--font-body);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  
+  .logo-navbar {
+    height: 60px;
+    width: auto;
+  }
+  
+  .nav-user-area {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  
+  .user-greeting {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: var(--color-plum);
+  }
+  
+  .user-icon {
+    font-size: 1.4rem;
+    color: var(--color-rose-burnt);
+  }
+  
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .nav-link {
     text-decoration: none;
-    font-size: 13px;
-}
-
-@media screen and (max-width: 769px) {
-    .logo-navbar{
-        max-width: 85%;
-        max-height: 200px;
+    font-weight: 500;
+    color: var(--color-plum);
+    transition: color 0.2s;
+  }
+  
+  .nav-link:hover {
+    color: var(--color-rose-burnt);
+  }
+  
+  .logout-button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--color-plum);
+    transition: color 0.2s;
+    padding: 0;
+  }
+  
+  .logout-button:hover {
+    color: var(--color-rose-burnt);
+    transform: none;
+  }
+  
+  .navbar-loginbutton {
+    background-color: var(--color-rose-burnt);
+    padding: 8px 20px;
+    border-radius: 30px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px;
     }
-
-    .navbar{
-        padding: 5px;
+    .nav-user-area {
+      flex-direction: column;
+      gap: 12px;
     }
-}
+    .nav-links {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }

@@ -1,7 +1,7 @@
 // frontend/src/components/Agendamento.tsx
 import React, { useState, useEffect } from 'react';
-import { listarServicos, criarAgendamento, alterarAgendamento } from '../services/api';
-import type { Servico, Sugestao } from '../types';
+import { listarServicos, criarAgendamento, alterarAgendamento } from '../../services/api';
+import type { Servico, Sugestao } from '../../types/index';
 
 const Agendamento: React.FC = () => {
   const [servicos, setServicos] = useState<Servico[]>([]);
