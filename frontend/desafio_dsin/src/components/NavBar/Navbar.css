@@ -1,0 +1,39 @@
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 15px 30px;
+    border-bottom: 3px solid var(--color-gold);
+    height: 110px;
+}
+
+.logo-navbar{
+    max-width: 400px;
+    max-height: 200px;
+}
+
+.navbar-loginbutton{
+    background-color: var(--color-rose-burnt);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    font-family: var(--font-body);
+    text-decoration: none;
+    font-size: 13px;
+}
+
+@media screen and (max-width: 769px) {
+    .logo-navbar{
+        max-width: 85%;
+        max-height: 200px;
+    }
+
+    .navbar{
+        padding: 5px;
+    }
+}

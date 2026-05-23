@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/api';
+import { login } from '../../services/api';
+import './login.css'
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -20,25 +21,28 @@ const Login: React.FC = () => {
         navigate('/agendamento');
       }
     } catch (err) {
-      setErro('Credenciais inválidas');
+      setErro('Login ou senha incorretos, tente novamente!');
     }
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: '50px auto' }} className="card">
-      <h2 style={{ textAlign: 'center' }}>Login - Cabeleleila Leila</h2>
+    <div className="card-login">
+      <img src="../public/Cabeleleialeila-horizontal.png" alt="logo" className='logo' />
+      <h2 style={{ textAlign: 'center', marginBottom: 10, marginTop: 10 }}>Login - Cabeleleila Leila</h2>
       {erro && <p style={{ color: 'red' }}>{erro}</p>}
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Email:</label>
+          <label style={{ textAlign: 'center', marginBottom: 10 }}>Email:</label>
           <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
         </div>
         <div>
-          <label>Senha:</label>
+          <label style={{ textAlign: 'center', marginBottom: 10 }}>Senha:</label>
           <input type="password" value={senha} onChange={e => setSenha(e.target.value)} required />
         </div>
+        <div className='loginbuttons'>
         <button type="submit">Entrar</button>
-        <p>Não tem conta? <a href="/registrar">Cadastre-se</a></p>
+        <a href="/registrar" className='buttoncadastrar'>Cadastre-se</a>
+        </div>
       </form>
     </div>
   );

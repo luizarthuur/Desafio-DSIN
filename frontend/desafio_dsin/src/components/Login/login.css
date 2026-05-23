@@ -1,0 +1,48 @@
+.card-login{
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 400px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    padding: 20px;
+    transition: 0.2s;
+}
+
+.loginbuttons{
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    margin: 30px auto;
+}
+
+.buttoncadastrar{
+    background-color: var(--color-plum);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    font-family: var(--font-body);
+    text-align: center;
+    font-size: 13px;
+}
+
+.buttoncadastrar:hover{
+    transform: scale(1.02);
+}
+
+.logo{
+    max-width: 400px;
+    max-height: 320px;
+}
+
+@media screen and (max-width: 748px) {
+    .card-login{
+        max-width: 85%
+    }
+}

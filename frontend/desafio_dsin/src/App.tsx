@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './components/Login';
+import Login from './components/Login/Login';
 import Agendamento from './components/Agendamento';
 import Historico from './components/Historico';
 import Admindashboard from './components/Admindashboard';
-import Navbar from './components/Navbar';
+import Navbar from './components/NavBar/Navbar';
 import PrivateRoute from './components/PrivateRoute';
 import Registrar from './components/Registrar';
 

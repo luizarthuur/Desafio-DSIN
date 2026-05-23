@@ -26,7 +26,7 @@ const Registrar: React.FC = () => {
 
   return (
     <div style={{ maxWidth: 400, margin: '50px auto' }}>
-      <h2>Cadastro de Cliente</h2>
+      <h2 style={{marginTop: 15, marginBottom: 15}}>Cadastro de Cliente</h2>
       {erro && <p style={{ color: 'red' }}>{erro}</p>}
       {sucesso && <p style={{ color: 'green' }}>{sucesso}</p>}
       <form onSubmit={handleSubmit}>
@@ -46,7 +46,7 @@ const Registrar: React.FC = () => {
           <label>Senha:</label>
           <input type="password" value={senha} onChange={e => setSenha(e.target.value)} required />
         </div>
-        <button type="submit">Cadastrar</button>
+        <button style={{marginTop: 15, marginBottom: 15}} type="submit">Cadastrar</button>
       </form>
       <p>Já tem conta? <a href="/login">Faça login</a></p>
     </div>

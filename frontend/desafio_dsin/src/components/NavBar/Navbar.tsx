@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import type { Usuario } from '../types';
+import type { Usuario } from '../../types';
+import './Navbar.css'
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -12,8 +13,8 @@ const Navbar: React.FC = () => {
   };
 
   return (
-<nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'white', padding: '15px 30px', borderBottom: `3px solid var(--color-gold)` }}>
-<div className="logo">Cabeleleila <span style={{ color: 'var(--color-gold)' }}>Leila</span></div>      {usuario ? (
+<nav className="navbar">
+<div className="logo"><img src="../public/cabeleleila-leila-vertical.png" alt="Logo" className='logo-navbar' /></div>      {usuario ? (
         <>
           <span>Olá, {usuario.nome} ({usuario.role})</span>
           {usuario.role === 'admin' ? (
@@ -27,7 +28,7 @@ const Navbar: React.FC = () => {
           <button onClick={logout}>Sair</button>
         </>
       ) : (
-        <Link to="/login">Login</Link>
+        <Link to="/login" className="navbar-loginbutton">Login</Link>
       )}
     </nav>
   );
