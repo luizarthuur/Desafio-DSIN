@@ -38,6 +38,7 @@ const Login: React.FC = () => {
           <input type="password" value={senha} onChange={e => setSenha(e.target.value)} required />
         </div>
         <button type="submit">Entrar</button>
+        <p>Não tem conta? <a href="/registrar">Cadastre-se</a></p>
       </form>
     </div>
   );

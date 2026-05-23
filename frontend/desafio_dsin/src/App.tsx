@@ -5,6 +5,7 @@ import Historico from './components/Historico';
 import Admindashboard from './components/Admindashboard';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
+import Registrar from './components/Registrar';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/historico" element={<PrivateRoute><Historico /></PrivateRoute>} />
         <Route path="/admin" element={<PrivateRoute roleRequired="admin"><Admindashboard /></PrivateRoute>} />
         <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/registrar" element={<Registrar />} />
       </Routes>
     </BrowserRouter>
   );

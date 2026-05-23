@@ -1,14 +1,13 @@
 const { PrismaClient } = require('@prisma/client');
+const bcrypt = require('bcryptjs');
 const prisma = new PrismaClient();
 
 async function main() {
-  // Limpar dados existentes (opcional, evita duplicação)
   await prisma.itemAgendamento.deleteMany();
   await prisma.agendamento.deleteMany();
   await prisma.cliente.deleteMany();
   await prisma.servico.deleteMany();
 
-  // Criar serviços
   await prisma.servico.createMany({
     data: [
       { nome: 'Corte feminino', duracao: 45, preco: 50.0 },
@@ -19,12 +18,15 @@ async function main() {
     ],
   });
 
-  // Criar clientes (atenção: modelo é "cliente", não "clientes")
+  const senhaHash = await bcrypt.hash('123456', 10);
+  const adminHash = await bcrypt.hash('admin123', 10);
+
   await prisma.cliente.createMany({
     data: [
-      { nome: 'Ana Silva', email: 'ana@email.com', telefone: '11999999999', senha: '123456' },
-      { nome: 'João Souza', email: 'joao@email.com', telefone: '11888888888', senha: '123456' },
-      { nome: 'Maria Oliveira', email: 'maria@email.com', telefone: '11777777777', senha: '123456' },
+      { nome: 'Ana Silva', email: 'ana@email.com', telefone: '11999999999', senha: senhaHash, role: 'cliente' },
+      { nome: 'João Souza', email: 'joao@email.com', telefone: '11888888888', senha: senhaHash, role: 'cliente' },
+      { nome: 'Maria Oliveira', email: 'maria@email.com', telefone: '11777777777', senha: senhaHash, role: 'cliente' },
+      { nome: 'Admin Leila', email: 'admin@cabeleila.com', telefone: '11999999999', senha: adminHash, role: 'admin' },
     ],
   });
 
@@ -32,10 +34,5 @@ async function main() {
 }
 
 main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+  .catch(e => console.error(e))
+  .finally(async () => await prisma.$disconnect());

@@ -10,37 +10,27 @@ exports.login = async (req, res) => {
     const cliente = await prisma.cliente.findUnique({ where: { email } });
     if (!cliente) return res.status(401).json({ erro: 'Credenciais inválidas' });
 
-    // Comparação com bcrypt (se a senha no banco estiver hasheada)
-    // Se você ainda tem senhas em texto plano, use a comparação direta abaixo
-    // const senhaValida = await bcrypt.compare(senha, cliente.senha);
-    const senhaValida = (senha === cliente.senha); // temporário, depois mude para bcrypt
-
+    // Comparação com hash
+    const senhaValida = await bcrypt.compare(senha, cliente.senha);
     if (!senhaValida) return res.status(401).json({ erro: 'Credenciais inválidas' });
 
     const token = gerarToken(cliente);
-    res.json({
-      token,
-      usuario: {
-        id: cliente.id,
-        nome: cliente.nome,
-        email: cliente.email,
-        role: cliente.role,
-      },
-    });
+    res.json({ token, usuario: { id: cliente.id, nome: cliente.nome, email: cliente.email, role: cliente.role } });
   } catch (error) {
     res.status(500).json({ erro: error.message });
   }
 };
 
-// Rota temporária para criar um usuário admin (use apenas para testes)
+// Se existir o método criarAdmin, também precisa hashear a senha
 exports.criarAdmin = async (req, res) => {
   try {
+    const senhaHash = await bcrypt.hash('admin123', 10);
     const admin = await prisma.cliente.create({
       data: {
         nome: 'Administrador',
         email: 'admin@cabeleila.com',
         telefone: '11999999999',
-        senha: 'admin123', // depois você pode hashear
+        senha: senhaHash,
         role: 'admin',
       },
     });

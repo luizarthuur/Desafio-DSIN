@@ -10,21 +10,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ========== ROTAS PÚBLICAS (não exigem token) ==========
-app.use('/api/auth', require('./routes/authRoutes'));       // login e criação de admin
-app.use('/api/clientes', require('./routes/clienteRoutes')); // listagem de clientes (pública)
-app.use('/api/servicos', require('./routes/servicoRoutes')); // listagem de serviços (pública)
-app.get('/', (req, res) => {
-  res.json({ message: 'API Cabeleleila Leila funcionando!' });
-});
+// ========== ROTAS PÚBLICAS ==========
+app.use('/api/auth', require('./routes/authRoutes'));        // login
+app.use('/api/clientes', require('./routes/clienteRoutes')); // GET e POST (cadastro)
+app.use('/api/servicos', require('./routes/servicoRoutes')); // listagem pública
+app.get('/', (req, res) => { res.json({ message: 'API funcionando' }); });
 
-// ========== ROTAS PROTEGIDAS (exigem token) ==========
-app.use(autenticar); // todas as rotas abaixo deste ponto requerem autenticação
+// ========== ROTAS PROTEGIDAS (token obrigatório) ==========
+app.use(autenticar);
 
-// Rotas de agendamento (qualquer usuário logado pode criar/alterar seu próprio)
 app.use('/api/agendamentos', require('./routes/agendamentoRoutes'));
 
-// Rotas gerenciais (apenas admin)
+// Rotas administrativas (além do token, exigem papel de admin)
 app.use('/api/relatorios', autorizarAdmin, require('./routes/relatorioRoutes'));
 
 module.exports = app;
