@@ -62,6 +62,7 @@ const MeusAgendamentos: React.FC = () => {
 
   const submitEdicao = async () => {
     if (!editandoId) return;
+    setLoading(true);
     try {
       await api.put(`/agendamentos/${editandoId}`, { novaData, novaHora, isAdmin: false });
       setMensagem({ texto: '✓ Agendamento alterado!', tipo: 'sucesso' });
@@ -70,6 +71,8 @@ const MeusAgendamentos: React.FC = () => {
       setTimeout(() => setMensagem(null), 3000);
     } catch (error: any) {
       setMensagem({ texto: error.response?.data?.erro || 'Erro ao alterar', tipo: 'erro' });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,6 +87,7 @@ const MeusAgendamentos: React.FC = () => {
       setMensagem({ texto: 'Informe o motivo do cancelamento', tipo: 'erro' });
       return;
     }
+    setLoading(true);
     try {
       await api.patch(`/agendamentos/${cancelandoId}/cancelar`, { motivo: motivoCancelamento });
       setMensagem({ texto: '✓ Agendamento cancelado', tipo: 'sucesso' });
@@ -92,12 +96,14 @@ const MeusAgendamentos: React.FC = () => {
       setTimeout(() => setMensagem(null), 3000);
     } catch (error: any) {
       setMensagem({ texto: error.response?.data?.erro || 'Erro ao cancelar', tipo: 'erro' });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div style={{ maxWidth: 1000, margin: '0 auto', padding: 20 }}>
-      <h2>📋 Meus Agendamentos</h2>
+      <h2 style={{marginBottom: 20}}>Meus Agendamentos</h2>
       <div className="card" style={{ marginBottom: 24, padding: 16 }}>
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-end' }}>
           <div style={{ flex: 1 }}>
@@ -148,9 +154,9 @@ const MeusAgendamentos: React.FC = () => {
             <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
               {ag.status !== 'cancelado' && (
                 <>
-                  {pode ? <button onClick={() => handleEditar(ag)}>✏️ Alterar data/hora</button>
+                  {pode ? <button onClick={() => handleEditar(ag)}>Alterar data/hora</button>
                     : <span style={{ color: '#999' }}>⚠️ Alteração permitida apenas com 2 dias ou mais de antecedência. Ligue para o salão.</span>}
-                  {pode ? <button onClick={() => handleCancelar(ag.id)} style={{ background: '#dc3545' }}>🗑️ Cancelar</button>
+                  {pode ? <button onClick={() => handleCancelar(ag.id)} style={{ background: '#dc3545' }}>Cancelar</button>
                     : <button disabled style={{ background: '#ccc' }}>Cancelamento indisponível</button>}
                 </>
               )}
@@ -158,6 +164,53 @@ const MeusAgendamentos: React.FC = () => {
           </div>
         );
       })}
+
+      {/* Modal de edição */}
+      {editandoId && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000
+        }}>
+          <div className="card" style={{ width: 400, background: 'white', padding: 24 }}>
+            <h3>Alterar agendamento</h3>
+            <div style={{ marginBottom: 12 }}>
+              <label>Nova data</label>
+              <input type="date" value={novaData} onChange={e => setNovaData(e.target.value)} />
+            </div>
+            <div style={{ marginBottom: 12 }}>
+              <label>Novo horário</label>
+              <input type="time" value={novaHora} onChange={e => setNovaHora(e.target.value)} />
+            </div>
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+              <button onClick={submitEdicao}>Salvar</button>
+              <button onClick={() => setEditandoId(null)}>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de cancelamento */}
+      {cancelandoId && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000
+        }}>
+          <div className="card" style={{ width: 400, background: 'white', padding: 24 }}>
+            <h3>Cancelar agendamento</h3>
+            <textarea
+              value={motivoCancelamento}
+              onChange={e => setMotivoCancelamento(e.target.value)}
+              rows={3}
+              placeholder="Justificativa do cancelamento"
+              style={{ width: '100%', marginBottom: 16 }}
+            />
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+              <button onClick={submitCancelamento}>Confirmar cancelamento</button>
+              <button onClick={() => setCancelandoId(null)}>Voltar</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

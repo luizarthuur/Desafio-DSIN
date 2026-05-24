@@ -98,6 +98,84 @@ TOKEN="<token_recebido>"
 curl -X GET http://localhost:3000/api/agendamentos/todos \
   -H "Authorization: Bearer $TOKEN"
 
+## 🗄️ Banco de Dados
+
+O projeto utiliza **PostgreSQL**. Você pode criar o banco e as tabelas de duas formas:
+
+### Opção 1 – Usando Prisma (recomendado)
+```bash
+# Crie o banco de dados
+sudo -u postgres psql -c "CREATE DATABASE salao_db;"
+
+# Execute as migrations
+npx prisma migrate dev --name init
+Opção 2 – Script SQL manual
+Caso não queira usar o Prisma, execute os comandos SQL abaixo:
+
+sql
+-- Criar banco de dados
+CREATE DATABASE salao_db;
+
+-- Conectar ao banco
+\c salao_db;
+
+-- Criar tabelas
+CREATE TABLE "Cliente" (
+    id SERIAL PRIMARY KEY,
+    nome TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    telefone TEXT NOT NULL,
+    senha TEXT NOT NULL,
+    role TEXT NOT NULL DEFAULT 'cliente'
+);
+
+CREATE TABLE "Servico" (
+    id SERIAL PRIMARY KEY,
+    nome TEXT NOT NULL,
+    descricao TEXT,
+    duracao INTEGER NOT NULL,
+    preco DOUBLE PRECISION NOT NULL,
+    "imagemUrl" TEXT
+);
+
+CREATE TABLE "Agendamento" (
+    id SERIAL PRIMARY KEY,
+    data TIMESTAMP NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pendente',
+    "formaPagamento" TEXT,
+    "motivoCancelamento" TEXT,
+    "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
+    "clienteId" INTEGER NOT NULL REFERENCES "Cliente"(id) ON DELETE CASCADE
+);
+
+CREATE TABLE "ItemAgendamento" (
+    id SERIAL PRIMARY KEY,
+    "agendamentoId" INTEGER NOT NULL REFERENCES "Agendamento"(id) ON DELETE CASCADE,
+    "servicoId" INTEGER NOT NULL REFERENCES "Servico"(id) ON DELETE CASCADE,
+    "statusServico" TEXT NOT NULL DEFAULT 'pendente',
+    "precoNaHora" DOUBLE PRECISION NOT NULL
+);
+Após criar as tabelas, execute o seed para popular dados iniciais (clientes e serviços).
+
+Dados iniciais (seed) – SQL
+sql
+-- Inserir serviços
+INSERT INTO "Servico" (nome, duracao, preco) VALUES
+('Corte feminino', 45, 50.0),
+('Corte masculino', 30, 35.0),
+('Tintura', 90, 120.0),
+('Escova', 40, 40.0),
+('Manicure', 30, 25.0);
+
+-- Inserir clientes (senhas com hash bcrypt de '123456' e 'admin123')
+-- Os hashes abaixo são exemplos; use bcrypt.hash() para gerar os seus.
+INSERT INTO "Cliente" (nome, email, telefone, senha, role) VALUES
+('Ana Silva', 'ana@email.com', '11999999999', '$2b$10$Jpc9byR2lj40Va...', 'cliente'),
+('João Souza', 'joao@email.com', '11888888888', '$2b$10$Jpc9byR2lj40Va...', 'cliente'),
+('Maria Oliveira', 'maria@email.com', '11777777777', '$2b$10$Jpc9byR2lj40Va...', 'cliente'),
+('Admin Leila', 'admin@cabeleila.com', '11999999999', '$2b$10$97A0pav0ts9onmBwzAMzIu2DOXApxEWCcJAzaPGj5VIEgMzu/VCMS', 'admin');
+Nota: Os hashes das senhas foram gerados com bcrypt.hash('123456', 10) e bcrypt.hash('admin123', 10). Em produção, você deve gerar os seus próprios hashes.
+
 ## 🧪 Testes
 
 ### Configuração do ambiente de teste

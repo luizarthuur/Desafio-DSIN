@@ -93,6 +93,9 @@ Axios
 
 React Icons
 
+### Banco de Dados
+Você pode criar o banco manualmente com SQL (veja `backend/README.md`) ou usar as migrations do Prisma.
+
 ## 🧪 Testes
 
 ### Backend
@@ -108,6 +111,17 @@ React Icons
 ## 📱 Responsividade
 - Layout adaptado para dispositivos móveis (media queries, grid flexível, barra de rolagem em tabelas).
 - Navegação ajustada para telas pequenas.
+
+URLS - 
+
+Vídeos explicativos:
+
+Video 1 - 
+Video 2 - 
+
+ScreenShots do Sistema - 
+
+
 
 📄 Licença
 Projeto desenvolvido para fins de avaliação técnica.

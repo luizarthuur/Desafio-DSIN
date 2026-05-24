@@ -1,0 +1,11 @@
+.registrar-container{
+    max-width: 400px;
+    margin: 50px auto;
+}
+
+@media screen and (max-width: 769px) {
+    .registrar-container{
+        max-width: 80%;
+        margin: 50px auto;
+    }
+}

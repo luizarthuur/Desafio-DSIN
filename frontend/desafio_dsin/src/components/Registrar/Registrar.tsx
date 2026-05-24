@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
+import './Registrar.css'
 
 const Registrar: React.FC = () => {
   const [nome, setNome] = useState('');
@@ -25,7 +26,7 @@ const Registrar: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: '50px auto' }}>
+    <div className='registrar-container'>
       <h2 style={{marginTop: 15, marginBottom: 15}}>Cadastro de Cliente</h2>
       {erro && <p style={{ color: 'red' }}>{erro}</p>}
       {sucesso && <p style={{ color: 'green' }}>{sucesso}</p>}
