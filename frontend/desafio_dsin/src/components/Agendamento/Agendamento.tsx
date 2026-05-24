@@ -7,7 +7,7 @@ const Agendamento: React.FC = () => {
   const [servicos, setServicos] = useState<Servico[]>([]);
   const [data, setData] = useState('');
   const [hora, setHora] = useState('');
-  const [servicoSelecionado, setServicoSelecionado] = useState<number | null>(null); // mudança para único
+  const [servicosSelecionados, setServicosSelecionados] = useState<number[]>([]); // array de IDs
   const [sugestao, setSugestao] = useState<Sugestao | null>(null);
   const [agendamentoId, setAgendamentoId] = useState<number | null>(null);
   const [mensagem, setMensagem] = useState('');
@@ -28,14 +28,15 @@ const Agendamento: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (servicoSelecionado === null) {
-      setMensagem('⚠️ Selecione um serviço.');
+    if (servicosSelecionados.length === 0) {
+      setMensagem('⚠️ Selecione pelo menos um serviço.');
       setTimeout(() => setMensagem(''), 3000);
       return;
     }
     setIsLoading(true);
     try {
-      const res = await criarAgendamento(usuario.id, data, hora, [servicoSelecionado]); // array com um item
+      // Envia array com todos os IDs selecionados
+      const res = await criarAgendamento(usuario.id, data, hora, servicosSelecionados);
       const { agendamento, sugestao: sug } = res.data;
       setAgendamentoId(agendamento.id);
       if (sug) {
@@ -81,11 +82,19 @@ const Agendamento: React.FC = () => {
   const limparFormulario = () => {
     setData('');
     setHora('');
-    setServicoSelecionado(null);
+    setServicosSelecionados([]);
     setAgendamentoId(null);
   };
 
   const hoje = new Date().toISOString().split('T')[0];
+
+  const toggleServico = (id: number) => {
+    if (servicosSelecionados.includes(id)) {
+      setServicosSelecionados(servicosSelecionados.filter(sid => sid !== id));
+    } else {
+      setServicosSelecionados([...servicosSelecionados, id]);
+    }
+  };
 
   return (
     <div style={{ maxWidth: 900, margin: '0 auto', padding: 20 }}>
@@ -118,10 +127,10 @@ const Agendamento: React.FC = () => {
             />
           </div>
 
-          {/* Serviços - Agora com radio buttons */}
+          {/* Serviços - checkboxes (múltipla escolha) */}
           <div style={{ marginBottom: 20 }}>
             <label style={{ fontWeight: 500, display: 'block', marginBottom: 10 }}>
-              Escolha o serviço que você deseja agendar: 
+              Escolha os serviços que deseja agendar (pode selecionar vários)
             </label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {servicos.map(s => (
@@ -132,7 +141,7 @@ const Agendamento: React.FC = () => {
                     alignItems: 'center',
                     gap: 20,
                     padding: '16px 20px',
-                    background: servicoSelecionado === s.id ? 'var(--color-rose-light)' : 'white',
+                    background: servicosSelecionados.includes(s.id) ? 'var(--color-rose-light)' : 'white',
                     borderRadius: 20,
                     border: '1px solid var(--color-rose-light)',
                     cursor: 'pointer',
@@ -140,11 +149,9 @@ const Agendamento: React.FC = () => {
                   }}
                 >
                   <input
-                    type="radio"
-                    name="servico"
-                    value={s.id}
-                    checked={servicoSelecionado === s.id}
-                    onChange={() => setServicoSelecionado(s.id)}
+                    type="checkbox"
+                    checked={servicosSelecionados.includes(s.id)}
+                    onChange={() => toggleServico(s.id)}
                     style={{ width: 22, height: 22, margin: 0 }}
                   />
                   <img

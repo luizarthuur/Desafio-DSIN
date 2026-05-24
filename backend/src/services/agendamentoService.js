@@ -6,6 +6,18 @@ class AgendamentoService {
   async criar(data) {
     const { clienteId, dataAgendamento, horaInicio, servicosIds } = data;
 
+    // 0. Verificar conflito de horário (pendente ou confirmado)
+    const dataHora = new Date(`${dataAgendamento}T${horaInicio}:00`);
+    const conflito = await prisma.agendamento.findFirst({
+      where: {
+        data: dataHora,
+        status: { in: ['pendente', 'confirmado'] },
+      },
+    });
+    if (conflito) {
+      throw new Error('Horário indisponível. Já existe um agendamento para esta data/hora.');
+    }
+
     // 1. Verificar agendamentos na mesma semana
     const semanaInicio = getWeekStart(dataAgendamento);
     const semanaFim = new Date(semanaInicio);
@@ -31,8 +43,7 @@ class AgendamentoService {
       };
     }
 
-    // 2. Criar o agendamento com a data informada
-    const dataHora = new Date(`${dataAgendamento}T${horaInicio}:00`);
+    // 2. Criar o agendamento
     const agendamento = await prisma.agendamento.create({
       data: {
         data: dataHora,
@@ -73,6 +84,19 @@ class AgendamentoService {
     }
 
     const novaDataHora = new Date(`${novaData}T${novaHora}:00`);
+
+    // Verificar conflito de horário (ignorando o próprio agendamento)
+    const conflito = await prisma.agendamento.findFirst({
+      where: {
+        data: novaDataHora,
+        status: { in: ['pendente', 'confirmado'] },
+        id: { not: id },
+      },
+    });
+    if (conflito) {
+      throw new Error('Horário indisponível. Escolha outro horário.');
+    }
+
     return await prisma.agendamento.update({
       where: { id },
       data: { data: novaDataHora },
