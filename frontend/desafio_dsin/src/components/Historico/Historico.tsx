@@ -1,7 +1,7 @@
 // frontend/src/components/Historico.tsx
 import React, { useState } from 'react';
-import { historicoCliente } from '../services/api';
-import type { Agendamento } from '../types';
+import { historicoCliente } from '../../services/api';
+import type { Agendamento } from '../../types/index';
 import { FaCalendarAlt, FaClock, FaListAlt } from 'react-icons/fa';
 
 const Historico: React.FC = () => {

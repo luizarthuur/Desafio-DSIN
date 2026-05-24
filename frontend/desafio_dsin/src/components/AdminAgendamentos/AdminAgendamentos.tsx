@@ -13,7 +13,6 @@ const AdminAgendamentos: React.FC = () => {
   const [motivoCancelamento, setMotivoCancelamento] = useState('');
   const [itemStatusMap, setItemStatusMap] = useState<{ [key: number]: string }>({});
 
-  // Função para obter o início da semana (domingo)
   const getWeekStart = (date: Date) => {
     const d = new Date(date);
     const day = d.getDay();
@@ -208,7 +207,6 @@ const AdminAgendamentos: React.FC = () => {
         })}
       </div>
 
-      {/* Modal corrigido */}
       {selectedAgendamento && (
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,

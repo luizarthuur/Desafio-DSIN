@@ -64,13 +64,10 @@ const AdminServicos: React.FC = () => {
 
   if (loading) return <p>Carregando...</p>;
 
-  // ... dentro do componente AdminServicos, após o estado e antes da listagem ...
-
 return (
   <div style={{ padding: 20 }}>
     <h2 style={{marginBottom: 20}}>Gerenciar Serviços</h2>
 
-    {/* Formulário */}
     <form onSubmit={handleSubmit} style={{
       background: 'var(--color-nude)',
       padding: 24,
@@ -154,7 +151,6 @@ return (
       </div>
     </form>
 
-    {/* Listagem de serviços */}
     <h3>Serviços cadastrados</h3>
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       {servicos.map(s => (

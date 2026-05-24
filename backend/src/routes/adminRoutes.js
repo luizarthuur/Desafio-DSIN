@@ -4,18 +4,15 @@ const { autenticar, autorizarAdmin } = require('../middleware/authMiddleware');
 
 router.use(autenticar, autorizarAdmin);
 
-// Clientes
 router.get('/clientes', adminController.listarClientes);
 router.put('/clientes/:id', adminController.atualizarCliente);
 router.delete('/clientes/:id', adminController.deletarCliente);
 
-// Serviços
 router.get('/servicos', adminController.listarServicosAdmin);
 router.post('/servicos', adminController.criarServico);
 router.put('/servicos/:id', adminController.atualizarServico);
 router.delete('/servicos/:id', adminController.deletarServico);
 
-// Cancelamento
 router.patch('/agendamentos/:id/cancelar', adminController.cancelarAgendamento);
 
 module.exports = router;

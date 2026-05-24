@@ -116,10 +116,10 @@ URLS -
 
 Vídeos explicativos:
 
-Video 1 - 
-Video 2 - 
+Video 1 Usuário - https://jam.dev/c/0baad0e8-ccbb-465c-884d-db10acf95823
+Video 2 Admin - https://jam.dev/c/908a157a-3856-4174-b40a-77c6ca8efb17
 
-ScreenShots do Sistema - 
+ScreenShots do Sistema - https://drive.google.com/drive/folders/1rZbJM5f5tzBysxYdNNsigXQxLmHw6Uid?usp=sharing
 
 
 

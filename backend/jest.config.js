@@ -1,4 +1,3 @@
-// jest.config.js
 process.env.NODE_ENV = 'test';
 module.exports = {
   clearMocks: true,
@@ -8,6 +7,5 @@ module.exports = {
   testEnvironment: "node",
   collectCoverageFrom: ["src/**/*.js"],
   coveragePathIgnorePatterns: ["/node_modules/", "/prisma/"],
-  // Se você usa variáveis de ambiente .env nos testes
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
 };

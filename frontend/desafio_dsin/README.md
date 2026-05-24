@@ -102,3 +102,8 @@ O frontend utiliza **Vitest** + **React Testing Library**.
 npm test               # modo interativo (watch)
 npm run test:run       # execução única
 npm run test:ui        # interface gráfica
+
+## ⚠️ Limitações conhecidas
+
+- **Área administrativa**: otimizada para uso em desktop (largura mínima recomendada: 1024px). Em dispositivos móveis, a visualização da agenda semanal e das tabelas de clientes/serviços pode exigir rolagem horizontal ou apresentar quebras de layout. Recomenda-se o uso em computadores.
+- **Testes do frontend**: devido a conflitos de módulo (duplicação de `node_modules`), alguns testes não estão sendo executados. A funcionalidade da aplicação não é afetada.

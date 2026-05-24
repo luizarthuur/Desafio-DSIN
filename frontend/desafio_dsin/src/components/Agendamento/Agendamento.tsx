@@ -7,7 +7,7 @@ const Agendamento: React.FC = () => {
   const [servicos, setServicos] = useState<Servico[]>([]);
   const [data, setData] = useState('');
   const [hora, setHora] = useState('');
-  const [servicosSelecionados, setServicosSelecionados] = useState<number[]>([]); // array de IDs
+  const [servicosSelecionados, setServicosSelecionados] = useState<number[]>([]);
   const [sugestao, setSugestao] = useState<Sugestao | null>(null);
   const [agendamentoId, setAgendamentoId] = useState<number | null>(null);
   const [mensagem, setMensagem] = useState('');
@@ -35,7 +35,6 @@ const Agendamento: React.FC = () => {
     }
     setIsLoading(true);
     try {
-      // Envia array com todos os IDs selecionados
       const res = await criarAgendamento(usuario.id, data, hora, servicosSelecionados);
       const { agendamento, sugestao: sug } = res.data;
       setAgendamentoId(agendamento.id);
@@ -104,7 +103,6 @@ const Agendamento: React.FC = () => {
         </h2>
 
         <form onSubmit={handleSubmit}>
-          {/* Data */}
           <div style={{ marginBottom: 15 }}>
             <label style={{ fontWeight: 500 }}>Data</label>
             <input
@@ -116,7 +114,6 @@ const Agendamento: React.FC = () => {
             />
           </div>
 
-          {/* Horário */}
           <div style={{ marginBottom: 15 }}>
             <label style={{ fontWeight: 500 }}>Horário</label>
             <input
@@ -127,7 +124,6 @@ const Agendamento: React.FC = () => {
             />
           </div>
 
-          {/* Serviços - checkboxes (múltipla escolha) */}
           <div style={{ marginBottom: 20 }}>
             <label style={{ fontWeight: 500, display: 'block', marginBottom: 10 }}>
               Escolha os serviços que deseja agendar (pode selecionar vários)
@@ -185,7 +181,6 @@ const Agendamento: React.FC = () => {
         </form>
       </div>
 
-      {/* Mensagem de feedback */}
       {mensagem && (
         <div className="card" style={{
           textAlign: 'center',
@@ -196,7 +191,6 @@ const Agendamento: React.FC = () => {
         </div>
       )}
 
-      {/* Sugestão de reagendamento */}
       {sugestao && (
         <div className="card" style={{
           marginTop: 20,

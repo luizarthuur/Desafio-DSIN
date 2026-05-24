@@ -1,7 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-// Clientes
 exports.listarClientes = async (req, res) => {
   const clientes = await prisma.cliente.findMany({ select: { id: true, nome: true, email: true, telefone: true, role: true } });
   res.json(clientes);
@@ -18,7 +17,6 @@ exports.deletarCliente = async (req, res) => {
   res.status(204).send();
 };
 
-// Serviços (CRUD completo)
 exports.listarServicosAdmin = async (req, res) => {
   const servicos = await prisma.servico.findMany();
   res.json(servicos);
@@ -40,7 +38,6 @@ exports.deletarServico = async (req, res) => {
   res.status(204).send();
 };
 
-// Cancelamento de agendamento (admin pode com justificativa)
 exports.cancelarAgendamento = async (req, res) => {
   const { id } = req.params;
   const { motivo } = req.body;

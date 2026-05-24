@@ -13,7 +13,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Tipagem das respostas
 export const login = (email: string, senha: string) =>
   api.post<{ token: string; usuario: Usuario }>('/auth/login', { email, senha });
 

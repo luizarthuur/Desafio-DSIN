@@ -6,7 +6,6 @@ exports.criar = async (req, res) => {
   try {
     const { clienteId, data, horaInicio, servicosIds } = req.body;
 
-    // Verifica permissão: admin pode criar para qualquer cliente; cliente comum só para si mesmo
     if (req.usuario.role !== 'admin' && req.usuario.id !== clienteId) {
       return res.status(403).json({ erro: 'Você só pode criar agendamentos para si mesmo.' });
     }
@@ -28,7 +27,6 @@ exports.alterar = async (req, res) => {
     const { id } = req.params;
     const { novaData, novaHora, isAdmin } = req.body;
 
-    // Busca o agendamento para verificar o dono
     const { PrismaClient } = require('@prisma/client');
     const prisma = new PrismaClient();
     const agendamento = await prisma.agendamento.findUnique({
@@ -39,12 +37,10 @@ exports.alterar = async (req, res) => {
       return res.status(404).json({ erro: 'Agendamento não encontrado' });
     }
 
-    // Verifica permissão: admin pode alterar qualquer; cliente só os seus
     if (req.usuario.role !== 'admin' && req.usuario.id !== agendamento.clienteId) {
       return res.status(403).json({ erro: 'Você só pode alterar seus próprios agendamentos.' });
     }
 
-    // Se for admin, força isAdmin = true para ignorar regra dos 2 dias
     const isAdminOverride = req.usuario.role === 'admin' ? true : (isAdmin || false);
 
     const agendamentoAtualizado = await agendamentoService.alterar(
@@ -64,7 +60,6 @@ exports.historico = async (req, res) => {
     let { clienteId, dataInicio, dataFim } = req.query;
     clienteId = parseInt(clienteId);
 
-    // Admin pode ver histórico de qualquer cliente; cliente comum só o seu
     if (req.usuario.role !== 'admin' && req.usuario.id !== clienteId) {
       return res.status(403).json({ erro: 'Você só pode ver seu próprio histórico.' });
     }
@@ -82,7 +77,6 @@ exports.historico = async (req, res) => {
 
 exports.listarTodos = async (req, res) => {
   try {
-    // Esta rota é protegida por autorizarAdmin, então não precisa verificar novamente
     const agendamentos = await agendamentoService.listarTodos();
     res.json(agendamentos);
   } catch (error) {
@@ -120,9 +114,11 @@ exports.cancelar = async (req, res) => {
     if (req.usuario.role !== 'admin' && req.usuario.id !== agendamento.clienteId) {
       return res.status(403).json({ erro: 'Você só pode cancelar seus próprios agendamentos.' });
     }
-    // Verifica se falta mais de 2 dias (opcional: permitir cancelamento até 2 dias antes)
     const hoje = new Date();
-    const diffDias = Math.ceil((new Date(agendamento.data) - hoje) / (1000*60*60*24));
+    hoje.setHours(0, 0, 0, 0);
+    const dataAgendamento = new Date(agendamento.data);
+    dataAgendamento.setHours(0, 0, 0, 0);
+    const diffDias = (dataAgendamento.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24);
     if (diffDias < 2 && req.usuario.role !== 'admin') {
       return res.status(400).json({ erro: 'Cancelamento permitido somente com 2 dias ou mais de antecedência. Entre em contato com o salão.' });
     }

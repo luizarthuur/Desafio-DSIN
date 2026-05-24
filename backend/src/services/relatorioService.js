@@ -9,7 +9,6 @@ class RelatorioService {
     semanaFim.setDate(semanaFim.getDate() + 6);
     semanaFim.setHours(23, 59, 59, 999);
 
-    // Buscar todos os agendamentos da semana
     const agendamentos = await prisma.agendamento.findMany({
       where: {
         data: {
@@ -32,20 +31,17 @@ class RelatorioService {
     let totalPendentes = 0;
 
     for (const ag of agendamentos) {
-      // Soma preços dos itens
       for (const item of ag.itens) {
         receitaTotal += item.precoNaHora;
         const nomeServico = item.servico.nome;
         servicosContagem.set(nomeServico, (servicosContagem.get(nomeServico) || 0) + 1);
       }
 
-      // Contagem por status
       if (ag.status === 'cancelado') totalCancelados++;
       else if (ag.status === 'confirmado') totalConfirmados++;
       else if (ag.status === 'pendente') totalPendentes++;
     }
 
-    // Top 3 serviços mais solicitados
     const servicosOrdenados = Array.from(servicosContagem.entries())
       .sort((a, b) => b[1] - a[1])
       .slice(0, 3)

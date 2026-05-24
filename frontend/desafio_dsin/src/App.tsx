@@ -16,7 +16,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Rotas públicas e de cliente compartilham o ClientLayout */}
         <Route element={<ClientLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/registrar" element={<Registrar />} />
@@ -24,7 +23,6 @@ function App() {
           <Route path="/meus-agendamentos" element={<PrivateRoute><MeusAgendamentos /></PrivateRoute>} />
         </Route>
 
-        {/* Rotas administrativas com layout especial (já tem Navbar e Footer internos) */}
         <Route path="/admin" element={<PrivateRoute roleRequired="admin"><AdminLayout /></PrivateRoute>}>
           <Route index element={<AdminDashboard />} />
           <Route path="agendamentos" element={<AdminAgendamentos />} />

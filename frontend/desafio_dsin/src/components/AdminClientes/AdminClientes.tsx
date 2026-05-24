@@ -96,7 +96,6 @@ const AdminClientes: React.FC = () => {
             {clientes.map((cliente) => (
               <tr key={cliente.id} style={{ borderBottom: '1px solid var(--color-rose-light)' }}>
                 {editandoId === cliente.id ? (
-                  // Modo edição
                   <>
                     <td style={{ padding: 12 }}>{cliente.id}</td>
                     <td style={{ padding: 12 }}>

@@ -10,7 +10,6 @@ exports.login = async (req, res) => {
     const cliente = await prisma.cliente.findUnique({ where: { email } });
     if (!cliente) return res.status(401).json({ erro: 'Credenciais inválidas' });
 
-    // Comparação com hash
     const senhaValida = await bcrypt.compare(senha, cliente.senha);
     if (!senhaValida) return res.status(401).json({ erro: 'Credenciais inválidas' });
 
@@ -21,7 +20,6 @@ exports.login = async (req, res) => {
   }
 };
 
-// Se existir o método criarAdmin, também precisa hashear a senha
 exports.criarAdmin = async (req, res) => {
   try {
     const senhaHash = await bcrypt.hash('admin123', 10);

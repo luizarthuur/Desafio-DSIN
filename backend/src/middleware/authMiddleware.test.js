@@ -1,7 +1,5 @@
-// backend/src/middleware/authMiddleware.test.js
 const jwt = require('jsonwebtoken');
 
-// Define a chave ANTES de importar o middleware
 process.env.JWT_SECRET = 'test_secret';
 
 const { autenticar, autorizarAdmin } = require('./authMiddleware');
@@ -22,7 +20,7 @@ describe('authMiddleware', () => {
     test('deve chamar next com usuário decodificado quando token for válido', () => {
       const payload = { id: 1, email: 'teste@email.com', role: 'cliente' };
       const token = jwt.sign(payload, process.env.JWT_SECRET);
-      req.headers.authorization = `Bearer ${token}`; // usar minúsculo
+      req.headers.authorization = `Bearer ${token}`;
 
       autenticar(req, res, next);
 

@@ -15,7 +15,6 @@ const AdminDashboard: React.FC = () => {
   useEffect(() => {
     const carregar = async () => {
       try {
-        // Permitir passar uma data específica no futuro (ex: ?data=YYYY-MM-DD)
         const params = semanaSelecionada ? { data: semanaSelecionada.toISOString().split('T')[0] } : {};
         const res = await relatorioSemanal(params.data);
         setRelatorio(res.data);
@@ -45,13 +44,11 @@ const AdminDashboard: React.FC = () => {
   const taxaConfirmacao = totalAgendamentos > 0 ? (relatorio.confirmados / totalAgendamentos) * 100 : 0;
   const taxaCancelamento = totalAgendamentos > 0 ? (relatorio.cancelamentos / totalAgendamentos) * 100 : 0;
 
-  // Ordena serviços mais pedidos para exibir barras de proporção
   const servicosOrdenados = [...relatorio.servicosMaisSolicitados].sort((a,b) => b.quantidade - a.quantidade);
   const maxQuantidade = servicosOrdenados[0]?.quantidade || 1;
 
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto', padding: 24 }}>
-      {/* Cabeçalho com navegação de semanas */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap' }}>
         <h2 style={{ color: 'var(--color-plum)', display: 'flex', alignItems: 'center', gap: 12 }}>
           <FaChartLine size={28} /> Dashboard Gerencial
@@ -65,7 +62,6 @@ const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Cards principais de métricas */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24, marginBottom: 40 }}>
         <div className="card" style={{ textAlign: 'center', borderTop: `4px solid var(--color-plum)` }}>
           <FaCalendarAlt size={32} color="var(--color-plum)" />
@@ -94,9 +90,7 @@ const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Gráficos e indicadores adicionais */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 32 }}>
-        {/* Distribuição de status (barras de progresso) */}
         
         <div className="card">
           <h3 style={{ display: 'flex', alignItems: 'center', gap: 8 }}><FaPercent /> Distribuição dos agendamentos</h3>
@@ -137,7 +131,6 @@ const AdminDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Serviços mais pedidos com barras horizontais */}
         <div className="card">
           <h3 style={{ display: 'flex', alignItems: 'center', gap: 8 }}><FaCrown /> Serviços mais procurados</h3>
           {servicosOrdenados.length === 0 && <p style={{ marginTop: 16 }}>Nenhum serviço realizado nesta semana.</p>}
@@ -157,7 +150,6 @@ const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Insights rápidos */}
       <div className="card" style={{ marginTop: 32, background: 'var(--color-nude)', borderLeft: `6px solid var(--color-gold)` }}>
         <h3>💡 Insights da semana</h3>
         <ul style={{ marginTop: 12, marginLeft: 20 }}>

@@ -45,8 +45,10 @@ const MeusAgendamentos: React.FC = () => {
 
   const podeModificar = (dataISO: string): boolean => {
     const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
     const dataAgendamento = new Date(dataISO);
-    const diffDias = Math.ceil((dataAgendamento.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24));
+    dataAgendamento.setHours(0, 0, 0, 0);
+    const diffDias = (dataAgendamento.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24);
     return diffDias >= 2;
   };
 
@@ -165,7 +167,6 @@ const MeusAgendamentos: React.FC = () => {
         );
       })}
 
-      {/* Modal de edição */}
       {editandoId && (
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
@@ -189,7 +190,6 @@ const MeusAgendamentos: React.FC = () => {
         </div>
       )}
 
-      {/* Modal de cancelamento */}
       {cancelandoId && (
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
