@@ -1,75 +1,105 @@
-# React + TypeScript + Vite
+# Frontend – Cabeleleila Leila
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação React + TypeScript + Vite para gerenciamento de agendamentos do salão.
 
-Currently, two official plugins are available:
+## Tecnologias
+- React 18
+- TypeScript
+- Vite
+- React Router DOM
+- Axios
+- React Icons
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Estrutura de pastas
+frontend/
+├── public/ # Ícones, imagens estáticas
+├── src/
+│ ├── components/ # Todos os componentes React
+│ │ ├── AdminDashboard.tsx
+│ │ ├── AdminAgendamentos.tsx
+│ │ ├── AdminClientes.tsx
+│ │ ├── AdminServicos.tsx
+│ │ ├── Agendamento.tsx
+│ │ ├── Login.tsx
+│ │ ├── Registrar.tsx
+│ │ ├── MeusAgendamentos.tsx
+│ │ ├── Navbar.tsx
+│ │ ├── Footer.tsx
+│ │ ├── AdminSidebar.tsx
+│ │ └── PrivateRoute.tsx
+│ ├── layouts/ # AdminLayout, ClientLayout
+│ ├── services/ # api.ts (configuração do Axios)
+│ ├── types/ # Interfaces TypeScript
+│ ├── App.tsx
+│ ├── main.tsx
+│ └── index.css # Estilos globais e variáveis CSS
+├── .env
+├── package.json
+└── vite.config.ts
 
-## React Compiler
+text
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## Instalação e execução
 
-Note: This will impact Vite dev & build performances.
+```bash
+cd frontend
+npm install
+npm run dev
+Acesse http://localhost:5173.
 
-## Expanding the ESLint configuration
+Funcionalidades do frontend
+Cliente (não autenticado)
+Cadastro de novos clientes (/registrar)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Login (/login)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Cliente autenticado
+Agendamento (/agendamento): escolher data/hora, selecionar múltiplos serviços, receber sugestão de reagendamento.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Meus Agendamentos (/meus-agendamentos): histórico com filtro por período, possibilidade de editar ou cancelar (respeitando a regra dos 2 dias).
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Administrador
+Dashboard (/admin): indicadores semanais, gráficos de barras, insights automáticos, navegação por semana.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Agenda (/admin/agendamentos): visualização semanal (slider + seletor de data), clicar no agendamento abre modal com detalhes, permite confirmar, cancelar (com justificativa) e alterar status de cada serviço individualmente.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Clientes (/admin/clientes): listagem, edição e exclusão de clientes.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Serviços (/admin/servicos): CRUD completo de serviços (nome, descrição, preço, duração, imagem).
+
+Estilização
+Cores personalizadas (ameixa, rosa queimado, dourado, nude) definidas em index.css como variáveis CSS.
+
+Componentes com a classe .card e .button para consistência.
+
+Layout responsivo com media queries básicas.
+
+Ícones react-icons para melhor experiência visual.
+
+Integração com o backend
+Base URL configurada em services/api.ts (http://localhost:3000/api).
+
+Interceptor adiciona automaticamente o token JWT no header Authorization.
+
+Rotas protegidas verificam autenticação e papel do usuário.
+
+Principais variáveis de ambiente
+env
+VITE_API_URL=http://localhost:3000/api   # opcional
+Decisões técnicas
+TypeScript para segurança de tipos e melhor manutenção.
+
+React Router para rotas aninhadas e proteção com PrivateRoute.
+
+Axios com interceptor para gerenciar token.
+
+CSS moderno (grid, flexbox, variáveis) para adaptação a telas de diferentes tamanhos.
+
+Possíveis melhorias
+Testes com React Testing Library
+
+Modo escuro/claro
+
+Notificações toast (react-hot-toast)
+
+Deploy na Vercel/Netlify
