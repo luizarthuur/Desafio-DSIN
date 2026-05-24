@@ -24,7 +24,7 @@ O servidor estará em http://localhost:3000.
 
 2. Frontend
 bash
-cd frontend
+cd frontend cd desafio_dsin cd src
 npm install
 npm run dev
 A aplicação estará em http://localhost:5173.
@@ -33,6 +33,7 @@ A aplicação estará em http://localhost:5173.
 Perfil	E‑mail	Senha
 Admin	admin@cabeleila.com	admin123
 Cliente (Ana)	ana@email.com	123456
+
 📚 Documentação detalhada
 Backend – endpoints, autenticação, regras de negócio
 
