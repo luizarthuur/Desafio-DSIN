@@ -97,14 +97,22 @@ curl -X POST http://localhost:3000/api/auth/login \
 TOKEN="<token_recebido>"
 curl -X GET http://localhost:3000/api/agendamentos/todos \
   -H "Authorization: Bearer $TOKEN"
-Melhorias futuras
-Refresh token e logout
 
-Validações com Joi
+## 🧪 Testes
 
-Testes unitários com Jest
+### Configuração do ambiente de teste
+1. Crie um banco de dados separado: `salao_db_test`.
+2. Configure o arquivo `.env.test` com a `DATABASE_URL` apontando para esse banco.
+3. Execute as migrations: `npx prisma migrate deploy`
+4. Rode os testes: `npm test`
 
-Documentação Swagger
+### Comandos
+```bash
+# Executa todos os testes
+npm test
 
-Containerização com Docker
+# Executa um arquivo específico
+npm test -- --testPathPattern=agendamentoService
 
+# Executa com cobertura
+npm run test:coverage

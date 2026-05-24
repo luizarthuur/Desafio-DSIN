@@ -85,7 +85,7 @@ Rotas protegidas verificam autenticação e papel do usuário.
 
 Principais variáveis de ambiente
 env
-VITE_API_URL=http://localhost:3000/api   # opcional
+VITE_API_URL=http://localhost:3000/api  
 Decisões técnicas
 TypeScript para segurança de tipos e melhor manutenção.
 
@@ -95,11 +95,10 @@ Axios com interceptor para gerenciar token.
 
 CSS moderno (grid, flexbox, variáveis) para adaptação a telas de diferentes tamanhos.
 
-Possíveis melhorias
-Testes com React Testing Library
+O frontend utiliza **Vitest** + **React Testing Library**.
 
-Modo escuro/claro
-
-Notificações toast (react-hot-toast)
-
-Deploy na Vercel/Netlify
+### Comandos
+```bash
+npm test               # modo interativo (watch)
+npm run test:run       # execução única
+npm run test:ui        # interface gráfica

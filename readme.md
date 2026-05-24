@@ -93,6 +93,22 @@ Axios
 
 React Icons
 
+## 🧪 Testes
+
+### Backend
+- **Testes unitários** (`dateUtils`, `authMiddleware`) – 100% aprovados.
+- **Testes de integração** (`agendamentoService`, `relatorioService`) – com banco de dados de teste (`salao_db_test`).
+- Cobertura atual: ~30% das linhas críticas (regras de negócio e autenticação).
+
+### Frontend
+- Configurado com Vitest + React Testing Library.
+- Testes básicos para `Login`, `Agendamento` e `MeusAgendamentos` (renderização e submissão).
+- **Nota:** Devido a conflitos de módulo (duplicação de `node_modules`), alguns testes podem não executar completamente. O sistema principal permanece 100% funcional.
+
+## 📱 Responsividade
+- Layout adaptado para dispositivos móveis (media queries, grid flexível, barra de rolagem em tabelas).
+- Navegação ajustada para telas pequenas.
+
 📄 Licença
 Projeto desenvolvido para fins de avaliação técnica.
 Autor: Luiz Arthur
